@@ -1,6 +1,6 @@
 # SIMPLE CONSOLE TASK-MANAGER
 ### ⚠️ Work in temporarily mode only ⚠️
-<img width="250" height="250" alt="image-removebg-preview (2)" src="https://github.com/user-attachments/assets/43dd5d77-5be8-4785-b6bc-1ddd80edac01" />
+<img width="200" height="200" alt="image-removebg-preview (2)" src="https://github.com/user-attachments/assets/43dd5d77-5be8-4785-b6bc-1ddd80edac01" />
 
 ## INTRODUCTION
 
