@@ -10,10 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Scanner;
+import java.util.*;
 
 public class DataStorage {
 //     String[] localData = {"DO TO SLEEP AT 10PM"};
@@ -31,6 +28,14 @@ public class DataStorage {
 //     contain static array with collection and add some changings with data once
     private final static ArrayList<String> getData = new ArrayList<>();
 
+//    task status list
+    enum status {
+        TODO,
+        IN_PROGRESS,
+        DONE
+    }
+
+
     static {
         getData.add("Go to sleep at 10PM");
     }
@@ -41,31 +46,38 @@ public class DataStorage {
             AddToData();
         }
         else {
-            System.out.println("[NOTES "+ getData.toArray().length+"]\n");
 
 //             !!! contained cycles = x2 duplicate
-                for(int i = 0; i < getData.toArray().length; i++){
-                    System.out.println("Task #"+i+" | "+getData.get(i)+"\n");
+                for(int i = 0; i < getData.size(); i++){
+                    String currentElem = getData.get(i);
+                    int oldIndex = getData.indexOf(currentElem);
+
+                    if(i == getData.size() - 1){
+                        System.out.println("TASK #"+i+" | "+currentElem+" | STATUS - "+status.TODO+"\n");
+                    } else if(i != getData.size() - 1){
+                        System.out.println("TASK #"+i+" | "+currentElem+" | STATUS - "+status.IN_PROGRESS+"\n");
+                    }
+//                    else if(getData.remove(Optional.of(i))){
+//                        System.out.println("OLD TASK #"+oldIndex+" | STATUS - "+status.DONE+"\n");
+//                    }
                 }
 
 
             Scanner goBack = new Scanner(System.in);
-            int goBackNum;
+            int goBackNum = -1;
 
             do{
+                System.out.println("0 - go back\n");
+
                 String convLine = goBack.nextLine().trim();
 
                 if(convLine.matches("\\d+")){
                     goBackNum = Integer.parseInt(convLine);
                     System.out.println("[SUCCESS]\n");
                 } else{
-                    System.out.println("[WRONG DATA, TRY AGAIN]\n");
+                    System.out.println("[WRONG OUTPUT, TRY AGAIN]\n");
                     System.out.println("0 - go back\n");
                 }
-
-                goBackNum = goBack.nextInt();
-
-                System.out.println("[SUCCESS]\n");
 
                 Utils.ClearConsole();
             }while (goBackNum != 0);
@@ -95,7 +107,7 @@ public class DataStorage {
                 goBackNum = Integer.parseInt(convLine);
                 System.out.println("[SUCCESS]\n");
             } else{
-                System.out.println("[WRONG DATA, TRY AGAIN]\n");
+                System.out.println("[WRONG OUTPUT, TRY AGAIN]\n");
                 System.out.println("0 - go back\n");
             }
 
@@ -109,17 +121,26 @@ public class DataStorage {
     public void DelTask(){
         Scanner taskID = new Scanner(System.in);
         System.out.println("[✶ WRITE NUMBER OF TASK]\n");
-        int convertedTaskID;
+        int convertedTaskID = -1;
+
 
        do{
-           convertedTaskID = taskID.nextInt();
+           System.out.println("0 - go back\n");
 
-           getData.remove(convertedTaskID);
+           String convLine = taskID.nextLine().trim();
 
-           System.out.println("[SUCCESS]\n");
+           if(convLine.matches("\\d+")){
+               convertedTaskID = Integer.parseInt(convLine);
+               System.out.println("[SUCCESS]\n");
+               getData.remove(convertedTaskID);
+           } else{
+               System.out.println("[WRONG OUTPUT, TRY AGAIN]\n");
+               System.out.println("0 - go back\n");
+           }
+
+           Utils.ClearConsole();
        }while (convertedTaskID != 0);
 
-        Utils.ClearConsole();
         HomePage.Home();
     }
 
@@ -133,27 +154,30 @@ public class DataStorage {
             convertedTaskID = taskID.nextInt();
 
             Scanner newTask = new Scanner(System.in);
-            System.out.println("[✶ WRITE NEW TASK]\n");
+            System.out.println("[✶ WRITE A NEW TASK]\n");
             String convertedNewTask = newTask.nextLine();
 
+//            replace new data to deleted data & place to the old index
             getData.add(convertedTaskID, convertedNewTask);
 
-            System.out.println("[SUCCESS]\n");
-
             Utils.ClearConsole();
+
+            System.out.println("[SUCCESS]\n");
 
 //            return algorithm
             Scanner goBack = new Scanner(System.in);
             int goBackNum = -1;
 
             do{
+                System.out.println("0 - go back\n");
+
                 String convLine = goBack.nextLine().trim();
 
                 if(convLine.matches("\\d+")){
                     goBackNum = Integer.parseInt(convLine);
                     System.out.println("[SUCCESS]\n");
                 } else{
-                    System.out.println("[WRONG DATA, TRY AGAIN]\n");
+                    System.out.println("[WRONG OUTPUT, TRY AGAIN]\n");
                     System.out.println("0 - go back\n");
                 }
 
@@ -195,21 +219,5 @@ public class DataStorage {
 
     }
 
-    //    public void GoBackFunc(){
-//        Scanner goBack = new Scanner(System.in);
-//        int goBackNum;
-//
-//        do{
-//            System.out.println("0 - go back\n");
-//
-//            goBackNum = goBack.nextInt();
-//
-//            System.out.println("[SUCCESS]\n");
-//
-//            Utils.ClearConsole();
-//        }while (goBackNum != 0);
-//
-//        HomePage.Home();
-//    }
 
 }

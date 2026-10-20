@@ -3,18 +3,25 @@ package features;
 import modules.HomePage;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Utils {
     public static void ClearConsole(){
+        String os = System.getProperty("os.name").toLowerCase();
+
         try {
-            new ProcessBuilder("cmd", "/c", "cls")
-                    .inheritIO()
-                    .start()
-                    .waitFor();
+            ProcessBuilder osProcess;
+
+            if(os.contains("win")){
+                osProcess = new ProcessBuilder("cmd", "cls");
+            } else {
+                osProcess = new ProcessBuilder("clear");
+            }
+
+            osProcess.inheritIO().start().waitFor();
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            System.out.println("ERROR: clear script is corrupted");
+            System.out.println("ERROR: clear script error");
         }
     }
 
@@ -32,7 +39,7 @@ public class Utils {
                 convertedData = Integer.parseInt(convLine);
                 System.out.println("[SUCCESS]\n");
             } else{
-                System.out.println("[WRONG DATA, TRY AGAIN]\n");
+                System.out.println("[WRONG OUTPUT, TRY AGAIN]\n");
                 System.out.println("0 - go back\n");
             }
 
